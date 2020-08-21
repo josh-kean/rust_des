@@ -1,4 +1,7 @@
-mod sbox;
+pub mod sbox;
+pub mod initial_permutation;
+pub mod rounds;
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,6 +41,26 @@ mod tests {
     fn problem_1_3() {
         problem1(vec![1,0,1,0,1,0], vec![0,1,0,1,0,1]);
     }
+
+    #[test]
+    fn problem_2() {
+        //verify that initial permutation encrypt is the same as initial permutate for decrypt
+        let permutate = initial_permutation::Permutations::new();
+        let mut input: Vec<u8> = vec![1,2,3,4,5];
+        let initial: Vec<u8> = permutate.permutate(true, &input);
+        let reverse: Vec<u8> = permutate.permutate(true, &initial);
+        while input.len() < 64{ //pads input with zero's on the end
+            input.insert(input.len(), 0);
+        }
+        assert_eq!(input, reverse);
+    }
+
+    #[test]
+    fn problem_3() {
+        let plaintext: Vec<u8> = vec![0;64];
+        let key: Vec<u8> = vec![0;64];
+    }
+
 }
 
 
