@@ -1,8 +1,16 @@
 pub use crate::sbox;
+pub use crate::permutations;
 
 //before any round happens the initial permutation happens
 
 pub mod round {
+    /* the following happens each round
+     * the 32 bit input is expanded to 48 bits
+     * the48 bits are xored with the key schedule
+     * the 48 bits are split into 8 groups of 6 bits
+     * the 6bit groups are processed through sboxes turning them into 4 bit numbers
+     * the 4 bit numbers are put through a diffusion permutation table
+     */
     use super::*;
     use sbox::boxes::SBox;
     fn expansion(data: &Vec<u8>) -> Vec<u8> {
@@ -29,11 +37,13 @@ pub mod round {
         let sbox = SBox::new();
         let mut count = 1;
         let mut sbox_result: Vec<u8> = Vec::new();
-        data.as_slice().chunks(6)
+        data.as_slice()
+            .chunks(6)
             .enumerate()
             .map(|x| sbox.diffusion((x.0 as u8), &Vec::from(x.1))).collect()
     }
 
-    pub fn round(
-    use super::*;
+    fn diffusion_permutation(data: &Vec<u8>) -> Vec<u8> {
+        vec![1,2,3]
+    }
 }

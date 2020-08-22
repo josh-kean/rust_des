@@ -1,6 +1,6 @@
 pub struct DataPermutations {
     initial: Vec<u8>,
-    reverse: Vec<u8>
+    ending: Vec<u8>
 }
 
 impl DataPermutations {
@@ -15,7 +15,7 @@ impl DataPermutations {
         61, 53, 45, 37, 29, 21, 13, 5,
         63, 55, 47, 39, 31, 23, 15, 7
             ],
-            reverse: vec![
+            ending: vec![
         40, 8, 48, 16, 56, 24, 64, 32,
         39, 7, 47, 15, 55, 23, 63, 31,
         38, 6, 46, 14, 54, 22, 62, 30,
@@ -29,7 +29,7 @@ impl DataPermutations {
     }
 
     pub fn permutate(&self, stage: bool, data: &Vec<u8>) -> Vec<u8> {
-        let permutation_table = if stage {&self.initial} else {&self.reverse};
+        let permutation_table = if stage {&self.initial} else {&self.ending};
         let mut input: Vec<u8> = vec![0; 64];
         for i in 0..data.len() {
             input[i] = data[i];
@@ -47,6 +47,7 @@ impl KeyPermutations {
     pub fn new() -> KeyPermutations {
         KeyPermutations {
             pc_1: vec![
+
             ],
             pc_2: vec![
             ]
