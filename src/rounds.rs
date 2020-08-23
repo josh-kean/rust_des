@@ -71,7 +71,7 @@ pub mod round {
         (split_input, split_key)
     }
 
-    pub fn round(round: u8, data: &SplitData, key: &SplitData) -> (SplitData, SplitData) {
+    pub fn round(round: u8, data: SplitData, key: SplitData) -> (SplitData, SplitData) {
         //get round key
         let key = rotate_keys(round, key); //rotate the keys for the round
         let rk = [key.left.as_slice(), key.right.as_slice()].join(&0);
@@ -88,12 +88,13 @@ pub mod round {
         }, key)
     }
 
-    pub fn encryption(data: Vec<u8>, key: Vec<u8>) -> (Vec<u8>, Vec<u8>) {
+    pub fn encryption(data: Vec<u8>, key: Vec<u8>) -> (SplitData, SplitData) {
         let (mut data, mut key) = initialization(data, key);
         for r in 0..8 {
-            let (data, key) = round(r, &data, &key);
+            let result = round(r, data, key);
+            data = result.0;
+            key = result.1;
         }
-        ([data.left.as_slice(), data.right.as_slice()].join(&0),
-         [key.left.as_slice(), key.right.as_slice()].join(&0))
+        (data, key)
     }
 }
