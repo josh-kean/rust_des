@@ -1,6 +1,8 @@
 pub mod sbox;
-pub mod initial_permutation;
+pub mod permutations;
 pub mod rounds;
+
+#[allow(non_snake_case)]
 
 #[cfg(test)]
 mod tests {
